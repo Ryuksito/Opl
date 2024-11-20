@@ -1,0 +1,9 @@
+# IF conditional
+
+VAR val1 = 10
+VAR val2 = 5
+
+IF val1 == val2 THEN VAR a = FALSE ELSE VAR a = TRUE
+
+VAR age = 22
+VAR price = IF age >= 18 THEN 40 ELSE 20

@@ -10,19 +10,23 @@ TT_POW			= 'POW'
 TT_EQ			= 'EQ'
 TT_LPAREN   	= 'LPAREN'
 TT_RPAREN   	= 'RPAREN'
-TT_EE			= 'EE' #
-TT_NE			= 'NE' #
-TT_LT			= 'LT' #
-TT_GT			= 'GT' #
-TT_LTE			= 'LTE' #
-TT_GTE			= 'GTE' #
+TT_EE			= 'EE'
+TT_NE			= 'NE'
+TT_LT			= 'LT'
+TT_GT			= 'GT'
+TT_LTE			= 'LTE'
+TT_GTE			= 'GTE'
 TT_EOF			= 'EOF'
 
 KEYWORDS = [
 	'VAR',
-	'AND', #
-	'OR', #
-	'NOT' #
+	'AND',
+	'OR',
+	'NOT',
+	'IF',
+	'THEN',
+	'ELIF',
+	'ELSE'
 ]
 
 class Token:

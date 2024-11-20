@@ -140,7 +140,7 @@ class Lexer:
 			tok_type = TT_GTE
 
 		return Token(tok_type, pos_start=pos_start, pos_end=self.pos)
-		
+			
 def run(fn, text):
     lexer = Lexer(fn, text)
     tokens, error = lexer.make_tokens()
