@@ -24,9 +24,13 @@ KEYWORDS = [
 	'OR',
 	'NOT',
 	'IF',
-	'THEN',
 	'ELIF',
-	'ELSE'
+	'ELSE',
+	'FOR',
+	'TO',
+	'STEP',
+	'WHILE',
+	'THEN'
 ]
 
 class Token:
