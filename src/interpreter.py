@@ -5,6 +5,10 @@ from src.models.token import *
 from src.models.context import Context
 from .parser import Parser
 from .lexer import Lexer
+from src.models import SymbolTable
+
+global_symbol_table = SymbolTable()
+global_symbol_table.set("null", Number(0))
 
 class Interpreter:
 	def visit(self, node, context):
@@ -22,6 +26,30 @@ class Interpreter:
 			Number(node.tok.value).set_context(context).set_pos(node.pos_start, node.pos_end)
 		)
 
+	def visit_VarAccessNode(self, node, context):
+		res = RTResult()
+		var_name = node.var_name_tok.value
+		value = context.symbol_table.get(var_name)
+
+		if not value:
+			return res.failure(RTError(
+				node.pos_start, node.pos_end,
+				f"'{var_name}' is not defined",
+				context
+			))
+
+		value = value.copy().set_pos(node.pos_start, node.pos_end)
+		return res.success(value)
+
+	def visit_VarAssignNode(self, node, context):
+		res = RTResult()
+		var_name = node.var_name_tok.value
+		value = res.register(self.visit(node.value_node, context))
+		if res.error: return res
+
+		context.symbol_table.set(var_name, value)
+		return res.success(value)
+
 	def visit_BinOpNode(self, node, context):
 		res = RTResult()
 		left = res.register(self.visit(node.left_node, context))
@@ -37,6 +65,8 @@ class Interpreter:
 			result, error = left.multed_by(right)
 		elif node.op_tok.type == TT_DIV:
 			result, error = left.dived_by(right)
+		elif node.op_tok.type == TT_POW:
+			result, error = left.powed_by(right)
 
 		if error:
 			return res.failure(error)
@@ -72,6 +102,7 @@ def run(fn, text):
 	# Run program
 	interpreter = Interpreter()
 	context = Context('<program>')
+	context.symbol_table = global_symbol_table
 	result = interpreter.visit(ast.node, context)
 
 	return result.value, result.error
