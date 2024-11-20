@@ -1,0 +1,10 @@
+# Variables
+
+VAR a = 10
+VAR a = VAR b = VAR c = 10
+a + 8
+VAR d = null
+5 + (VAR e = 5)
+
+5 + VAR e = 5 # Error
+Var b = 0 # Error

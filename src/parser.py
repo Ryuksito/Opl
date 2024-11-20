@@ -25,7 +25,7 @@ class ParseResult:
 		if not self.error or self.advance_count == 0:
 			self.error = error
 		return self
-
+	
 class Parser:
 	def __init__(self, tokens):
 		self.tokens = tokens
@@ -43,7 +43,7 @@ class Parser:
 		if not res.error and self.current_tok.type != TT_EOF:
 			return res.failure(InvalidSyntaxError(
 				self.current_tok.pos_start, self.current_tok.pos_end,
-				"Expected '+', '-', '*', '/' or '^'"
+				"Expected '+', '-', '*', '/', '^', '==', '!=', '<', '>', <=', '>=', 'AND' or 'OR'"
 			))
 		return res
 
@@ -80,7 +80,7 @@ class Parser:
 
 		return res.failure(InvalidSyntaxError(
 			tok.pos_start, tok.pos_end,
-			"Expected int, float, identifier, '+', '-' or '('"
+			"Expected int, float, identifier, '+', '-', '('"
 		))
 
 	def power(self):
@@ -101,6 +101,31 @@ class Parser:
 
 	def term(self):
 		return self.bin_op(self.factor, (TT_MUL, TT_DIV))
+
+	def arith_expr(self):
+		return self.bin_op(self.term, (TT_PLUS, TT_MINUS))
+
+	def comp_expr(self):
+		res = ParseResult()
+
+		if self.current_tok.matches(TT_KEYWORD, 'NOT'):
+			op_tok = self.current_tok
+			res.register_advancement()
+			self.advance()
+
+			node = res.register(self.comp_expr())
+			if res.error: return res
+			return res.success(UnaryOpNode(op_tok, node))
+		
+		node = res.register(self.bin_op(self.arith_expr, (TT_EE, TT_NE, TT_LT, TT_GT, TT_LTE, TT_GTE)))
+		
+		if res.error:
+			return res.failure(InvalidSyntaxError(
+				self.current_tok.pos_start, self.current_tok.pos_end,
+				"Expected int, float, identifier, '+', '-', '(' or 'NOT'"
+			))
+
+		return res.success(node)
 
 	def expr(self):
 		res = ParseResult()
@@ -131,12 +156,12 @@ class Parser:
 			if res.error: return res
 			return res.success(VarAssignNode(var_name, expr))
 
-		node = res.register(self.bin_op(self.term, (TT_PLUS, TT_MINUS)))
+		node = res.register(self.bin_op(self.comp_expr, ((TT_KEYWORD, 'AND'), (TT_KEYWORD, 'OR'))))
 
 		if res.error:
 			return res.failure(InvalidSyntaxError(
 				self.current_tok.pos_start, self.current_tok.pos_end,
-				"Expected 'VAR', int, float, identifier, '+', '-' or '('"
+				"Expected 'VAR', int, float, identifier, '+', '-', '(' or 'NOT'"
 			))
 
 		return res.success(node)
@@ -151,7 +176,7 @@ class Parser:
 		left = res.register(func_a())
 		if res.error: return res
 
-		while self.current_tok.type in ops:
+		while self.current_tok.type in ops or (self.current_tok.type, self.current_tok.value) in ops:
 			op_tok = self.current_tok
 			res.register_advancement()
 			self.advance()
@@ -160,28 +185,9 @@ class Parser:
 			left = BinOpNode(left, op_tok, right)
 
 		return res.success(left)
-
-#######################################
-# RUNTIME RESULT
-#######################################
-
-class RTResult:
-	def __init__(self):
-		self.value = None
-		self.error = None
-
-	def register(self, res):
-		if res.error: self.error = res.error
-		return res.value
-
-	def success(self, value):
-		self.value = value
-		return self
-
-	def failure(self, error):
-		self.error = error
-		return self
 	
+
+
 def run(fn, text):
 		# Generate tokens
 		lexer = Lexer(fn, text)
