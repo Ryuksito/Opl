@@ -12,6 +12,8 @@ def preprocess_file_path(file_path):
     return file_path.replace("\\", "/")
 
 if __name__ == "__main__":
+    os.system("cls")
+    print("OPS: Own Programming Language\nVersion: 0.0.1\n")
     parser = argparse.ArgumentParser(description="Intérprete y ejecutor de archivos para el lenguaje OPL.")
     parser.add_argument(
         "file_path",
