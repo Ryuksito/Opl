@@ -1,0 +1,19 @@
+# empty list
+VAR my_list = []
+PRINT(my_list)
+
+
+VAR my_list = [1, 2, 3, 4]
+PRINT(my_list)
+
+my_list + 8
+PRINT(my_list)
+
+my_list + [1, 2, 3, 4]
+PRINT(my_list)
+
+VAR list_value = my_list/0
+PRINT(my_list)
+
+VAR my_list = FOR i = 1 TO  9 THEN 2^i
+PRINT(my_list)

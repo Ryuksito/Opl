@@ -1,0 +1,16 @@
+FUN test(); VAR foo = 5; RETURN foo; END
+PRINT(test())
+
+VAR a = []
+
+FOR i = 0 TO 10 THEN
+	IF i == 4 THEN
+        CONTINUE
+    ELIF i == 8 THEN
+        BREAK
+    END
+    VAR a = a + i    
+	END
+
+PRINT("")
+PRINT(a)

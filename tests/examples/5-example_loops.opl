@@ -1,0 +1,11 @@
+VAR factorial = 1
+FOR i = 1 TO 5 THEN
+    VAR factorial = factorial * i
+END
+PRINT(factorial)
+
+VAR count = 0
+WHILE count < 5 THEN
+    PRINT(count)
+    VAR count = count + 1
+END

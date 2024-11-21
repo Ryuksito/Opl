@@ -1,0 +1,14 @@
+VAR val1 = 10
+VAR val2 = 5
+
+IF val1 > val2 THEN
+    PRINT("val1 is greater")
+ELSE
+    PRINT("val2 is greater or equal")
+END
+
+VAR age = 18
+VAR ticket_price = IF age >= 18 THEN 100 ELSE 50
+PRINT(ticket_price)
+
+PRINT(IF 5==5 THEN; PRINT("MATH"); PRINT("WORKS"); ELSE PRINT("BROKEN"))

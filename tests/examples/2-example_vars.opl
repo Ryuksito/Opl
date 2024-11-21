@@ -1,0 +1,6 @@
+VAR x = 10
+PRINT(x + 5)
+VAR y = VAR z = 20
+PRINT(y * z)
+VAR a = NULL
+PRINT(a)

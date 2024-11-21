@@ -1,0 +1,9 @@
+PRINT("This is a string")
+
+PRINT("This is a " + "concatenate strings") 
+
+PRINT("Multiple strings: " + "Hello, "*3)
+
+FUN greet(person, emphasization) -> "Hello, " * emphasization + person
+
+PRINT(greet("Alan", 3))

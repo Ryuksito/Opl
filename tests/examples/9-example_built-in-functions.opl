@@ -1,0 +1,33 @@
+PRINT(MATH_PI)
+
+PRINT("Write your name:")
+VAR name = INPUT()
+PRINT("Your name: " + name)
+
+PRINT("Write your age:")
+VAR age = INPUT()
+PRINT("Your age: " + age)
+
+# Clear Screen
+# CLS()
+
+# Check number
+PRINT(IS_NUM(123))
+PRINT(IS_NUM([]))
+PRINT(IS_NUM(""))
+
+# Check list
+PRINT(IS_LIST([]))
+
+# Check fun
+PRINT(IS_FUN(PRINT))
+
+# APPEND
+VAR my_list = [1,2,3]
+PRINT(my_list)
+APPEND(my_list, 4)
+PRINT(my_list)
+PRINT(POP(my_list, 2))
+PRINT(my_list)
+EXTEND(my_list, [5,6,7])
+PRINT(my_list)

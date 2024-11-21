@@ -1,0 +1,9 @@
+FUN square(x) -> x * x
+
+PRINT(square(4))
+
+FUN add(a, b)
+    RETURN a + b
+END
+
+PRINT(add(10, 20))
