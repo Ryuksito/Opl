@@ -1,0 +1,12 @@
+// Abstract Syntax Tree
+digraph {
+	Root
+	"1-BinOp(None)"
+	Root -> "1-BinOp(None)"
+	"2-Number(4)"
+	"1-BinOp(None)" -> "2-Number(4)"
+	"3-Number(0)"
+	"1-BinOp(None)" -> "3-Number(0)"
+	"4Return"
+	Root -> "4Return"
+}

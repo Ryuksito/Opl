@@ -2,6 +2,8 @@ from .models.nodes import *
 from .error import *
 from .models.token import *
 from .lexer import Lexer
+from .models.graph_node import ASTVisualizer
+import os
 
 class ParseResult:
   def __init__(self):
@@ -753,10 +755,55 @@ def run(fn, text):
 
 		return ast.node, ast.error
 
-def run_parser():
-    while True:
-        text = input('opl >> ')
-        result, error = run('<stdin>', text)
+def run_parser(opc):
+    os.system("cls")
+    result:ListNode = None
+    
+    if opc == '1':
+      text = """
+# This is a very useful piece of software
 
-        if error: print(error.as_string())
-        else: print(result)
+FUN oopify(prefix) -> prefix + "oop"
+
+FUN join(elements, separator)
+	VAR result = ""
+	VAR len = LEN(elements)
+
+	FOR i = 0 TO len THEN
+		VAR result = result + elements/i
+		IF i != len - 1 THEN VAR result = result + separator
+	END
+
+	RETURN result
+END
+
+FUN map(elements, func)
+	VAR new_elements = []
+
+	FOR i = 0 TO LEN(elements) THEN
+		APPEND(new_elements, func(elements/i))
+	END
+
+	RETURN new_elements
+END
+
+PRINT("Greetings universe!")
+
+FOR i = 0 TO 5 THEN
+	PRINT(join(map(["l", "sp", "xd"], oopify), ", "))
+END
+    """
+      ast_root, ast_error = run('<stdin>', text)
+    
+    if opc == '2':
+      while True:
+          text = input('opl >> ')
+          ast_root, ast_error = run('<stdin>', text)
+
+          if ast_error: print(ast_error.as_string())
+          else: 
+            print(result)
+            break
+
+    visualizer = ASTVisualizer(ast_root)
+    visualizer.visualize()
